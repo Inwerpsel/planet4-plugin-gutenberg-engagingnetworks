@@ -17,12 +17,12 @@ export class ENFormBlock {
           {
             type: 'shortcode',
             // Shortcode tag can also be an array of shortcode aliases
-            tag: 'shortcake_enform',
+            tag: 'shortcake_enblock',
             attributes: {
               en_page_id: {
                 type: 'integer',
                 shortcode: function (attributes) {
-                  return attributes.named.en_page_id;
+                  return Number(attributes.named.en_page_id);
                 }
               },
               enform_goal: {
@@ -112,7 +112,7 @@ export class ENFormBlock {
               en_form_id: {
                 type: 'integer',
                 shortcode: function (attributes) {
-                  return attributes.named.en_form_id;
+                  return Number(attributes.named.en_form_id);
                 }
               },
             },
