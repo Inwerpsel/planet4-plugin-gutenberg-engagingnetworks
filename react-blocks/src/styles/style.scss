@@ -4,4 +4,12 @@
 @import "styleguide/src/base/functions";
 @import "styleguide/src/base/mixins";
 
+// Blocks
 @import "blocks/ENForm/components/enform";
+
+// Campaigns - mixins
+@import "blocks/ENForm/campaigns/mixins";
+
+// Campaigns - themes
+@import "blocks/ENForm/campaigns/themes/theme_oil";
+@import "blocks/ENForm/campaigns/themes/theme_climate";

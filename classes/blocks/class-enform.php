@@ -191,7 +191,8 @@ class ENForm extends Base_Block {
 	 * @return array The data to be passed in the View.
 	 */
 	public function prepare_data( $attributes ): array {
-		global $pagenow;
+
+		global $post;
 
 		// Enqueue js for the frontend.
 		if ( ! $this->is_rest_request() ) {
@@ -248,6 +249,24 @@ class ENForm extends Base_Block {
 			$rendered_form = '';
 		}
 
+		$campaign_data = array();
+
+		if ( 'campaign' === get_post_type() && isset( $attributes['campaign_logo'] ) ) {
+			if ( 'true' == $attributes['campaign_logo'] ) {
+				$page_meta_data    = get_post_meta( $post->ID );
+				$campaign_template = ! empty( $page_meta_data['_campaign_page_template'][0] ) ? $page_meta_data['_campaign_page_template'][0] : false;
+
+				if ( $campaign_template ) {
+					$campaign_logo_path = get_bloginfo( 'template_directory' ) . '/images/' . $campaign_template . '/logo-light.png';
+					$campaign_data      = [
+						'template'  => $campaign_template,
+						'logo_path' => $campaign_logo_path,
+						'logo'      => $attributes['campaign_logo'],
+					];
+				}
+			}
+		}
+
 		$data = array_merge(
 			$data,
 			[
@@ -255,6 +274,7 @@ class ENForm extends Base_Block {
 				'redirect_url' => isset( $attributes['thankyou_url'] ) ? filter_var( $attributes['thankyou_url'], FILTER_VALIDATE_URL ) : '',
 				'nonce_action' => 'enform_submit',
 				'form'         => $rendered_form,
+				'campaign_data'   => $campaign_data,
 			]
 		);
 
